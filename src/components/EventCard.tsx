@@ -9,10 +9,10 @@
 // API interaction
 // - Event ID = Event Details
 // - Organizer ID = Organizer Flag
-import React from 'react'
+import React from "react";
 
 function EventCard() {
-  return <div>EventCard</div>
+  return <div>EventCard</div>;
 }
 
-export default EventCard
+export default EventCard;

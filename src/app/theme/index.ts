@@ -25,5 +25,9 @@ export const extendedTheme = {
       xl: "1280px",
       "2xl": "1536px",
     },
+    backgroundImage: {
+      desktopBackground: "url('../utils/images/desktopBackground.webp')",
+      mobileBackground: "url('../utils/images/mobileBackground.webp')",
+    },
   },
 };
