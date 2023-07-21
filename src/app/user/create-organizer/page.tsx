@@ -5,9 +5,18 @@
 // - Welcome Modal on submission
 // - Redirect to Profile on completion
 import React from 'react'
+import Link from 'next/link'
 
 function CreateOrganizerAccountForm() {
-  return <div>CreateOrganizerAccountForm</div>
+  return (
+    <>
+      <h1>CreateOrganizerAccountForm</h1>
+
+      <h2>
+        <Link href="/">← Back to home</Link>
+      </h2>
+    </>
+  )
 }
 
 export default CreateOrganizerAccountForm
