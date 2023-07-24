@@ -18,7 +18,7 @@ export const extendedTheme = {
       error: "#f87272",
     },
     screens: {
-      xs: "320px",
+      xs: "425px",
       sm: "640px",
       md: "768px",
       lg: "1024px",
@@ -28,6 +28,19 @@ export const extendedTheme = {
     backgroundImage: {
       desktopBackground: "url('../utils/images/desktopBackground.webp')",
       mobileBackground: "url('../utils/images/mobileBackground.webp')",
+      tabletBackground: "url('../utils/images/tablet.webp')",
+      groupBackground: "url('../utils/images/group.webp')",
+      planningBackground: "url('../utils/images/planning.webp')",
+      ticketBackground: "url('../utils/images/ticketLogoLight.png')",
+    },
+    animation: {
+      fadeInStayOut: "fadeInOut 4s ease-in-out infinite",
+      fadeIn: "animate-fadeIn delay-2000",
+    },
+    dropShadow: {
+      "text-sm": "1px 1px 0px rgba(0, 0, 0, 0.90)",
+      "text-md": "1px 2px 0px rgba(0, 0, 0, 0.90)",
+      "text-lg": "1px 4px 0px rgba(0, 0, 0, 0.90)",
     },
   },
 };

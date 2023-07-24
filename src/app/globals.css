@@ -25,3 +25,61 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.carousel {
+  display: inline-flex;
+  overflow-x: hidden;
+  /*  scroll snap is a great feature which will center the image on snap on touch screen devices  */
+  scroll-snap-type: x mandatory;
+  /* all below will hide the scrollbar on all browsers.    */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+/** ----- Animation Keyframes ----- */
+@keyframes fadeInStayOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    /* opacity: 0; */
+    display: none;
+    transform: translateY(10px);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/** ----- Parallax Layers -----  */
+@layer utilities {
+  .perspective {
+    perspective: 100px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .distance-1 {
+    transform: translateZ(-100px) scale(2);
+  }
+
+  .distance-2 {
+    transform: translateZ(-50px) scale(1.5);
+  }
+}
