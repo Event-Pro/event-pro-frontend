@@ -1,17 +1,17 @@
-"use client";
-import React, { memo } from "react";
-import ticketLogo from "../../utils/images/ticketLogoLight.png";
-import presentation from "../../utils/images/presentation.webp";
+'use client'
+import React, { memo } from 'react'
+import ticketLogo from '../../utils/images/ticketLogoLight.png'
+import presentation from '../../utils/images/presentation.webp'
 
-import Image from "next/image";
-import { CustomerReviews } from "../CustomerReviews";
+import Image from 'next/image'
+import { CustomerReviews } from '../CustomerReviews'
 
 const DesktopLanding = memo(() => {
   return (
     <>
-      <nav className="fixed z-20 top-0 w-full h-16 flex justify-center items-center text-2xl bg-slate-700 shadow-accent shadow-lg">
+      {/* <nav className="fixed z-20 top-0 w-full h-16 flex justify-center items-center text-2xl bg-slate-700 shadow-accent shadow-lg">
         <p>Navbar Placeholder</p>
-      </nav>
+      </nav> */}
       <div className="w-full bg-desktopBackground bg-center bg-cover bg-no-repeat text-base text-white selection:bg-accent selection:text-dark overflow-hidden">
         <div className="h-screen pb-12 sm:pb-0 overflow-y-auto overflow-x-hidden relative scroll-smooth perspective">
           <header className="min-h-screen flex flex-col justify-evenly items-center relative preserve-3d">
@@ -20,7 +20,7 @@ const DesktopLanding = memo(() => {
             <div className=" w-10/12 rounded bg-dark shadow-lg shadow-primary flex z-20">
               <div className=" w-4/6 text-7xl flex items-center ml-10">
                 <div className="flex flex-col items-center">
-                  The simple way to organize{" "}
+                  The simple way to organize{' '}
                   <span className="text-primary">your events</span>
                   <p className="text-2xl mt-10">
                     Be in control without the stress
@@ -30,7 +30,7 @@ const DesktopLanding = memo(() => {
                   focus:outline-none focus-visible:ring-4 ring-accent ring-offset-bkg ring-offset-2 hover:bg-slate-300/90 
                   space-x-2 drop-shadow-text-lg hover:drop-shadow-none transition-shadow distance-2 pl-2"
                   >
-                    Placeholder Search Bar{" "}
+                    Placeholder Search Bar{' '}
                     <button className="bg-primary rounded-r px-4 py-1 text-white">
                       Search
                     </button>
@@ -118,7 +118,7 @@ const DesktopLanding = memo(() => {
             <div className="hero-section relative z-10 w-full h-[600px] bg-gradient-to-b from-transparent to-slate-700 flex justify-evenly">
               <div className="bg-planningBackground rounded-ss-full rounded-ee-full bg-center bg-cover bg-no-repeat w-5/12 h-[400px]"></div>
               <div className=" w-4/12">
-                {" "}
+                {' '}
                 <p className="text-muted drop-shadow-text-lg mb-10 bg-primary rounded place-items-center p-2">
                   Unlock the door to stress-free event planning today with our
                   powerful and intuitive app! Do not delay and experience the
@@ -160,10 +160,10 @@ const DesktopLanding = memo(() => {
         </div>
       </div>
     </>
-  );
-});
+  )
+})
 
-DesktopLanding.displayName = "DesktopLanding";
+DesktopLanding.displayName = 'DesktopLanding'
 
 // export const MemoizedDesktopLanding = React.memo(DesktopLanding);
-export default DesktopLanding;
+export default DesktopLanding
