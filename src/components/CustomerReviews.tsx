@@ -1,8 +1,8 @@
 import React from "react";
 
-import customer1 from "../utils/images/customer1.webp";
-import customer2 from "../utils/images/customer2.webp";
-import customer3 from "../utils/images/customer3.webp";
+import customer1 from "@/assets/images/customer1.webp";
+import customer2 from "@/assets/images/customer2.webp";
+import customer3 from "@/assets/images/customer3.webp";
 import Image from "next/image";
 
 const Customers = [

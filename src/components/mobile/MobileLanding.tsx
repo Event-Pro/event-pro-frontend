@@ -1,11 +1,10 @@
-
 import React, { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import textLogo from "../../utils/images/textLogoLight.png";
-import down from "../../utils/icons/down.png";
-import SmoothScroll from "@/hook/useSmoothScroll";
+import textLogo from "@/assets/images/textLogoLight.png";
+import down from "@/assets/icons/down.png";
+import SmoothScroll from "@/hooks/useSmoothScroll";
 
 const MobileLanding = memo(() => {
   return (
@@ -123,7 +122,6 @@ const MobileLanding = memo(() => {
         <section className="w-full h-20 z-10 border-2 border-slate-500 bg-slate-500  relative flex flex-col justify-center items-center text-center">
           Footer Section
         </section>
-
       </main>
     </div>
   );

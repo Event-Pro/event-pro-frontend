@@ -1,16 +1,16 @@
 "use client";
 import React, { memo } from "react";
-import ticketLogo from "../../utils/images/ticketLogoLight.png";
-import presentation from "../../utils/images/presentation.webp";
+import ticketLogo from "@/assets/images/ticketLogoLight.png";
+import presentation from "@/assets/images/presentation.webp";
 
 import Image from "next/image";
 import { CustomerReviews } from "../CustomerReviews";
 import CarouselComponent from "../CarouselComponent";
-import colorRun from "../../utils/images/colorRun.webp";
-import baseball from "../../utils/images/baseball.webp";
-import concert from "../../utils/images/concert.webp";
-import fundraiser from "../../utils/images/fundraiser.webp";
-import park from "../../utils/images/park.webp";
+import colorRun from "@/assets/images/colorRun.webp";
+import baseball from "@/assets/images/baseball.webp";
+import concert from "@/assets/images/concert.webp";
+import fundraiser from "@/assets/images/fundraiser.webp";
+import park from "@/assets/images/park.webp";
 
 const images = [colorRun, baseball, concert, fundraiser, park];
 

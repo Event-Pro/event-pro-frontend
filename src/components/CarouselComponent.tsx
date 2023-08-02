@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import React, { useState, useEffect } from "react";
-import left from "../utils/icons/left.png";
-import right from "../utils/icons/right.png";
+import left from "@/assets/icons/left.png";
+import right from "@/assets/icons/right.png";
 
 interface CarouselComponentProps {
   images: string[] | StaticImageData[];

@@ -4,32 +4,32 @@
 // - Organizer Inputs (update as needed): Email, Password
 // - Welcome Modal on submission
 // - Redirect to Profile on completion
-'use client'
-import React from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import ticket from '../../../utils/images/ticketLogoLight.png'
+"use client";
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import ticket from "@/assets/images/ticketLogoLight.png";
 
 export default function CreateCustomerAccountForm() {
-  const router = useRouter()
+  const router = useRouter();
   // Handles the submit event on form submit.
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
-    event.preventDefault()
+    event.preventDefault();
 
     // Get data from the form.
     const data = {
       username: event.target.username.value,
       password: event.target.password.value,
-    }
+    };
 
     // // Send the data to the server in JSON format.
     // const JSONdata = JSON.stringify(data)
 
-    alert(`Hi ${data.username}`)
+    alert(`Hi ${data.username}`);
 
-    router.push('/user/profile')
+    router.push("/user/profile");
 
     // // API endpoint where we send form data.
     // const endpoint = '/api/createOrganizer'
@@ -53,7 +53,7 @@ export default function CreateCustomerAccountForm() {
     // // If server returns the name submitted, that means the form works.
     // const result = await response.json()
     // alert(`Is this your full name: ${result.data}`)
-  }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
       <div className="bg-white max-w-md w-full space-y-8 text-dark shadow-md rounded border-solid border-2 border-primary">
@@ -120,5 +120,5 @@ export default function CreateCustomerAccountForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }
