@@ -1,134 +1,68 @@
-// "use client";
-import React, { RefObject, useEffect, useRef, useState } from "react";
-// import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
+import React, { useState, useEffect } from "react";
+import left from "../utils/icons/left.png";
+import right from "../utils/icons/right.png";
 
-// import colorRun from "../utils/images/colorRun.webp";
-// import concert from "../utils/images/concert.webp";
-// import park from "../utils/images/park.webp";
-// import baseball from "../utils/images/baseball.webp";
-// import soccer from "../utils/images/soccer.webp";
-// import left from "../utils/icons/left.png";
-// import right from "../utils/icons/right.png";
-// import { StaticImageData } from "next/image";
+interface CarouselComponentProps {
+  images: string[] | StaticImageData[];
+}
 
-// interface Image {
-//   url: StaticImageData;
-// }
+const CarouselComponent: React.FC<CarouselComponentProps> = ({ images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null); // Use the correct type for timerId
 
-// const images: Image[] = [
-//   {
-//     url: colorRun,
-//   },
-//   {
-//     url: concert,
-//   },
-//   {
-//     url: park,
-//   },
-//   {
-//     url: baseball,
-//   },
-//   {
-//     url: soccer,
-//   },
-// ];
+  const goToNextSlide = () => {
+    const newIndex = (currentIndex + 1) % images.length;
+    setCurrentIndex(newIndex);
+  };
 
-// const arrowStyle: string =
-//   "absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-75 flex items-center justify-center";
+  const goToPrevSlide = () => {
+    const newIndex = (currentIndex - 1 + images.length) % images.length;
+    setCurrentIndex(newIndex);
+  };
 
-// // Move sliderControl outside of CarouselComponent
-// const sliderControl = (
-//   isLeft: boolean,
-//   onClick: () => void,
-//   previousImage: () => void,
-//   nextImage: () => void
-// ) => (
-//   <div className="hidden md:block">
-//     <button
-//       type="button"
-//       onClick={onClick}
-//       className={`${arrowStyle} ${isLeft ? "left-2" : "right-2"}`}
-//       style={{ top: "40%" }}
-//     >
-//       <Image
-//         src={isLeft ? left : right}
-//         alt={`Arrow ${isLeft ? "left" : "right"}`}
-//         width={30} // Adjust width to your icon size
-//         height={30} // Adjust height to your icon size
-//         className="filter invert"
-//       />
-//     </button>
-//   </div>
-// );
+  useEffect(() => {
+    // Start the timer when the component mounts
+    const timer = setInterval(goToNextSlide, 6000); // Change the delay (in milliseconds) for the timer here
+    setTimerId(timer);
 
-// export const CarouselComponent: React.FC = () => {
-//   const [currentImage, setCurrentImage] = useState<number>(0);
+    // Clean up the timer when the component unmounts
+    return () => {
+      if (timerId !== null) {
+        clearInterval(timerId); // Use a different variable name for the timer identifier
+      }
+    };
+  }, [currentIndex]); // Re-run the effect whenever the currentIndex changes
 
-//   const refs: RefObject<HTMLDivElement>[] = images.map(() =>
-//     useRef<HTMLDivElement>(null)
-//   );
+  return (
+    <div className="flex flex-col items-center">
+      <div className=" w-[900px] object-contain">
+        <Image src={images[currentIndex]} alt={`Image ${currentIndex}`} />
+      </div>
+      <div className="flex justify-evenly w-full">
+        <button onClick={goToPrevSlide}>
+          <Image
+            src={left}
+            alt="back button"
+            width={20}
+            height={20}
+            style={{ filter: "invert(100%)" }}
+          />
+          Back
+        </button>
+        <button onClick={goToNextSlide}>
+          <Image
+            src={right}
+            alt="next button"
+            width={20}
+            height={20}
+            style={{ filter: "invert(100%)" }}
+          />
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
 
-//   const scrollToImage = (i: number) => {
-//     setCurrentImage(i);
-//     refs[i].current?.scrollIntoView({
-//       behavior: "smooth",
-//       block: "nearest",
-//       inline: "start",
-//     });
-//   };
-
-//   const totalImages: number = images.length;
-
-//   const nextImage = () => {
-//     if (currentImage >= totalImages - 1) {
-//       scrollToImage(0);
-//     } else {
-//       scrollToImage(currentImage + 1);
-//     }
-//   };
-
-//   const previousImage = () => {
-//     if (currentImage === 0) {
-//       scrollToImage(totalImages - 1);
-//     } else {
-//       scrollToImage(currentImage - 1);
-//     }
-//   };
-//   //? ----- AUTO SCROLL LOGIC -----
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       nextImage();
-//     }, 6000);
-//     return () => {
-//       clearInterval(interval);
-//     };
-//   }, [currentImage]);
-
-//   return (
-//     <>
-//       <div className="w-full p-12 flex justify-center md:w-1/2 items-center">
-//         <div className="relative w-full">
-//           <div className="carousel w-full transition-scroll duration-2000 ease-in-out">
-//             {sliderControl(true, previousImage, previousImage, nextImage)}
-//             {images.map((img, i) => (
-//               <div
-//                 className="w-full flex-shrink-0"
-//                 key={img.url.src}
-//                 ref={refs[i]}
-//               >
-//                 <Image
-//                   src={img.url}
-//                   className="w-full object-contain"
-//                   alt={`Image ${i}`}
-//                   width={img.url.width}
-//                   height={img.url.height}
-//                 />
-//               </div>
-//             ))}
-//             {sliderControl(false, nextImage, previousImage, nextImage)}
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
+export default CarouselComponent;

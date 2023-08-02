@@ -1,6 +1,6 @@
-import DesktopLanding from '@/components/desktop/DesktopLanding'
-import MobileLanding from '../components/mobile/MobileLanding'
-import Link from 'next/link'
+import DesktopLanding from "@/components/desktop/DesktopLanding";
+import MobileLanding from "../components/mobile/MobileLanding";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -8,5 +8,5 @@ export default function Home() {
       {/* <MobileLanding /> */}
       <DesktopLanding />
     </main>
-  )
+  );
 }

@@ -32,6 +32,8 @@ export const extendedTheme = {
       groupBackground: "url('../utils/images/group.webp')",
       planningBackground: "url('../utils/images/planning.webp')",
       ticketBackground: "url('../utils/images/ticketLogoLight.png')",
+      phoneBackground: "url('../utils/images/phone.webp')",
+      customizeBackground: "url('../utils/images/tablet2.webp')",
     },
     animation: {
       fadeInStayOut: "fadeInOut 4s ease-in-out infinite",
