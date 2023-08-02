@@ -9,7 +9,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import ticket from '../../../utils/images/ticket.jpg'
+import ticket from '../../../utils/images/ticketLogoLight.png'
 
 export default function CreateOrganizerAccountForm() {
   const router = useRouter()
