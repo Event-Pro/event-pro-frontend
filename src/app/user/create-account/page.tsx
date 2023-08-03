@@ -1,7 +1,7 @@
-// Purpose: Allow a Customer to create an account
+// Purpose: Allow a user to create an account
 
 // Functionality:
-// - Customer Inputs (update as needed): First name, last name, Email, username, Password, Image (optional)
+// - User Inputs (update as needed): First name, last name, Email, username, Password, Image (optional)
 // - Welcome Modal on submission
 // - Redirect to Profile on completion
 
@@ -80,34 +80,17 @@ export default function CreateCustomerAccountForm() {
             <div className="mb-4">
               <label
                 className="block text-dark text-sm font-bold mb-2"
-                htmlFor="firstName"
+                htmlFor="name"
               >
-                First Name
+                Name
               </label>
               <input
                 className="shadow appearance-none border rounded border-accent w-full py-2 px-3 text-dark leading-tight focus:outline-secondary focus:shadow-outline placeholder-accent"
-                placeholder="First Name"
+                placeholder="Name"
                 type="text"
-                id="firstName"
-                name="firstName"
+                id="name"
+                name="name"
                 required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label
-                className="block text-dark text-sm font-bold mb-2"
-                htmlFor="lastName"
-              >
-                Last Name
-              </label>
-              <input
-                className="shadow appearance-none border rounded border-accent w-full py-2 px-3 text-dark leading-tight focus:outline-secondary focus:shadow-outline placeholder-accent"
-                placeholder="Last Name"
-                type="text"
-                name="lastName"
-                required
-                id="lastName"
               />
             </div>
 
