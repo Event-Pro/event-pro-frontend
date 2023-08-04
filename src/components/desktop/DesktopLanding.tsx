@@ -1,5 +1,5 @@
 "use client";
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import ticketLogo from "@/assets/images/ticketLogoLight.png";
 import presentation from "@/assets/images/presentation.webp";
 
@@ -11,10 +11,23 @@ import baseball from "@/assets/images/baseball.webp";
 import concert from "@/assets/images/concert.webp";
 import fundraiser from "@/assets/images/fundraiser.webp";
 import park from "@/assets/images/park.webp";
+import EventCard from "../EventCard";
+import { musicEvents, parkEvents, sportEvents } from "@/utils/data";
 
 const images = [colorRun, baseball, concert, fundraiser, park];
 
 const DesktopLanding = memo(() => {
+  // const [sportsData, setSportsData] = useState({
+  //   endDate: new Date(),
+  //   image: baseball,
+  //   inPerson: false,
+  //   name: "",
+  //   startDate: new Date(),
+  //   tags: [],
+  //   time: 0,
+  //   virtual: false,
+  // });
+
   return (
     <>
       {/* <nav className="fixed z-20 top-0 w-full h-16 flex justify-center items-center text-2xl bg-slate-700 shadow-accent shadow-lg">
@@ -70,8 +83,35 @@ const DesktopLanding = memo(() => {
           </header>
 
           <main className="relative grid place-items-center overflow-hidden w-full mt-5">
-            <div className="w-full flex justify-center m-auto">
+            <div className="w-full flex justify-center m-auto mb-3">
               <CarouselComponent images={images} />
+            </div>
+
+            <div className="w-10/12 justify-center m-auto mt-10">
+              <h2 className="text-3xl font-bold tracking-wide drop-shadow-text-md mb-2">
+                Sports
+              </h2>
+              <div className="flex justify-center">
+                <EventCard events={sportEvents} />
+              </div>
+            </div>
+
+            <div className="w-10/12 justify-center m-auto mt-10">
+              <h2 className="text-3xl font-bold tracking-wide drop-shadow-text-md mb-2">
+                Concerts
+              </h2>
+              <div className="flex justify-center">
+                <EventCard events={musicEvents} />
+              </div>
+            </div>
+
+            <div className="w-10/12 justify-center m-auto mt-10">
+              <h2 className="text-3xl font-bold tracking-wide drop-shadow-text-md mb-2">
+                Local Events
+              </h2>
+              <div className="flex justify-center">
+                <EventCard events={parkEvents} />
+              </div>
             </div>
 
             <div className="mt-32 w-full">

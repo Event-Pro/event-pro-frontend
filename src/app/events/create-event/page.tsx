@@ -189,7 +189,7 @@ function CreateEventForm() {
             <div>
               <label
                 className="block text-dark text-sm font-bold mb-2 text-center"
-                htmlFor="startDateTime"
+                htmlFor="startDatetime"
               >
                 Date and Time
               </label>
@@ -198,7 +198,7 @@ function CreateEventForm() {
               <div className="display: inline-block px-2">
                 <label
                   className="display: block text-dark text-sm font-bold mb-2  text-center"
-                  htmlFor="startDateTime"
+                  htmlFor="startDatetime"
                 >
                   Start
                 </label>

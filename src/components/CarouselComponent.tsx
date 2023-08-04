@@ -1,5 +1,5 @@
-import Image, { StaticImageData } from "next/image";
 import React, { useState, useEffect } from "react";
+import Image, { StaticImageData } from "next/image";
 import left from "@/assets/icons/left.png";
 import right from "@/assets/icons/right.png";
 

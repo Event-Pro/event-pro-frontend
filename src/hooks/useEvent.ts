@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { StaticImageData } from "next/image";
 
-interface EventModel {
+export interface EventModel {
   name: string;
   is_virtual: boolean;
   location: string;
@@ -10,7 +11,7 @@ interface EventModel {
   tags: string[];
   creatorId: string;
   managedBy: string;
-  imgUrl: string;
+  imgUrl: StaticImageData;
   description: string;
 }
 // get all events

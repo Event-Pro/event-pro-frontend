@@ -10,9 +10,36 @@
 // - Event ID = Event Details
 // - Organizer ID = Organizer Flag
 import React from "react";
+import Image from "next/image";
+import { EventModel } from "@/hooks/useEvent";
 
-function EventCard() {
-  return <div>EventCard</div>;
+export interface EventCardsProps {
+  events: EventModel[];
 }
+
+const EventCard = ({ events }: EventCardsProps) => {
+  return (
+    <div className="flex flex-row flex-wrap justify-between gap-5 w-full">
+      {events.map((data, index) => (
+        <div
+          key={index}
+          className="relative card border-2 border-primary w-96 h-56 rounded"
+        >
+          <Image
+            src={data.imgUrl}
+            alt="event image"
+            layout="fill"
+            objectFit="cover"
+            style={{ borderRadius: "2.5px" }}
+          />
+          <div className="absolute bottom-0 left-0 p-4 bg-black bg-opacity-60 text-white rounded-bl-sm">
+            <h3 className="text-xl font-semibold">{data.name}</h3>
+            <p>{data.is_virtual === true ? "Virtual" : "In Person"}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default EventCard;
