@@ -5,54 +5,71 @@
 // - Welcome Modal on submission
 // - Redirect to Profile on completion
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ticket from "@/assets/images/ticketLogoLight.png";
+import { useLogin } from "@/hooks";
 
-export default function CreateCustomerAccountForm() {
+interface CredentialModel {
+  username: string;
+  password: string;
+}
+
+export default function Login() {
+  const AUTH_URL = process.env.AUTH_API_URL;
+  console.log(AUTH_URL);
+  // const [credentials, setCredentials] = useState<CredentialModel>({
+  //   username: "",
+  //   password: "",
+  // });
+  const [data, setData] = useState<any>(null);
+  const [submit, setSubmit] = useState<boolean>(false);
   const router = useRouter();
+
+  async function loginUser(credentials: object) {
+    try {
+      const response = await fetch(`${AUTH_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify the content type as JSON
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed"); // Handle non-OK response status (e.g., 400, 500, etc.)
+      }
+
+      const data = await response.json(); // Parse the JSON data from the response
+      console.log(data);
+      return data;
+    } catch (error) {
+      // Handle any errors that occurred during the fetch request
+      console.error("Login failed:", error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
+  }
+
   // Handles the submit event on form submit.
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
     // Get data from the form.
-    const data = {
+    let credentials = {
       username: event.target.username.value,
       password: event.target.password.value,
     };
+    loginUser(credentials);
+
+    // useLogin(event.target.username.value, event.target.password.value);
 
     // // Send the data to the server in JSON format.
     // const JSONdata = JSON.stringify(data)
 
-    alert(`Hi ${data.username}`);
-
-    router.push("/user/profile");
-
-    // // API endpoint where we send form data.
-    // const endpoint = '/api/createOrganizer'
-
-    // // Form the request for sending data to the server.
-    // const options = {
-    //   // The method is POST because we are sending data.
-    //   method: 'POST',
-    //   // Tell the server we're sending JSON.
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   // Body of the request is the JSON data we created above.
-    //   body: JSONdata,
-    // }
-
-    // // Send the form data to our forms API on Vercel and get a response.
-    // const response = await fetch(endpoint, options)
-
-    // // Get the response data from server as JSON.
-    // // If server returns the name submitted, that means the form works.
-    // const result = await response.json()
-    // alert(`Is this your full name: ${result.data}`)
+    // router.push("/user/profile");
   };
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">

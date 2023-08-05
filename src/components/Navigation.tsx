@@ -26,7 +26,7 @@ const Navigation = () => {
   const [eventMenu, setEventMenu] = useState(false);
   const eventMenuRef = useRef<HTMLDivElement>(null);
   // Placehoder for user
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     setMobileMenu(false);

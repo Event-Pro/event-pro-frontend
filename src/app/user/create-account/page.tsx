@@ -12,8 +12,41 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ticket from "@/assets/images/ticketLogoLight.png";
 
+interface UserModel {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+}
+
 export default function CreateCustomerAccountForm() {
+  const AUTH_URL = process.env.AUTH_API_URL;
   const router = useRouter();
+
+  async function createUser(userData: UserModel) {
+    try {
+      const response = await fetch(`${AUTH_URL}/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify the content type as JSON
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed"); // Handle non-OK response status (e.g., 400, 500, etc.)
+      }
+
+      const data = await response.json(); // Parse the JSON data from the response
+      console.log(data);
+      return data;
+    } catch (error) {
+      // Handle any errors that occurred during the fetch request
+      console.error("Login failed:", error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
+  }
+
   // Handles the submit event on form submit.
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
@@ -21,42 +54,15 @@ export default function CreateCustomerAccountForm() {
 
     // Get data from the form.
     const data = {
-      firstName: event.target.firstName.value,
-      lastName: event.target.lastName.value,
+      name: event.target.name.value,
       email: event.target.email.value,
       username: event.target.username.value,
       password: event.target.password.value,
     };
 
-    // // Send the data to the server in JSON format.
-    // const JSONdata = JSON.stringify(data)
+    createUser(data);
 
-    alert(`Hi ${data.firstName}`);
-
-    router.push("/user/profile");
-
-    // // API endpoint where we send form data.
-    // const endpoint = '/api/createOrganizer'
-
-    // // Form the request for sending data to the server.
-    // const options = {
-    //   // The method is POST because we are sending data.
-    //   method: 'POST',
-    //   // Tell the server we're sending JSON.
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   // Body of the request is the JSON data we created above.
-    //   body: JSONdata,
-    // }
-
-    // // Send the form data to our forms API on Vercel and get a response.
-    // const response = await fetch(endpoint, options)
-
-    // // Get the response data from server as JSON.
-    // // If server returns the name submitted, that means the form works.
-    // const result = await response.json()
-    // alert(`Is this your full name: ${result.data}`)
+    // router.push("/user/profile");
   };
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
@@ -91,6 +97,7 @@ export default function CreateCustomerAccountForm() {
                 id="name"
                 name="name"
                 required
+                minLength={2}
               />
             </div>
 
@@ -125,6 +132,7 @@ export default function CreateCustomerAccountForm() {
                 id="username"
                 name="username"
                 required
+                minLength={2}
               />
             </div>
 
@@ -142,6 +150,7 @@ export default function CreateCustomerAccountForm() {
                 id="password"
                 name="password"
                 required
+                minLength={6}
               />
             </div>
             <div className="flex items-center justify-between">

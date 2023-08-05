@@ -11,10 +11,23 @@
 // - Organizer ID = Organizer Flag
 import React from "react";
 import Image from "next/image";
-import { EventModel } from "@/hooks/useEvent";
+import { StaticImageData } from "next/image";
+// import { EventModel } from "@/hooks/useEvent";
 
 export interface EventCardsProps {
-  events: EventModel[];
+  events: {
+    name: string;
+    is_virtual: boolean;
+    location: string;
+    startDatetime: string;
+    endDatetime: string;
+    price: number;
+    tags: string[];
+    creatorId: string;
+    managedBy: string;
+    imgUrl: StaticImageData;
+    description: string;
+  }[];
 }
 
 const EventCard = ({ events }: EventCardsProps) => {

@@ -8,13 +8,13 @@ export interface EventModel {
   startDatetime: string;
   endDatetime: string;
   price: number;
-  tags: string[];
+  tags: string[] | null;
   creatorId: string;
   managedBy: string;
   imgUrl: StaticImageData;
   description: string;
 }
-// get all events
+// get a single events
 export const useEvent = (id: string) => {
   const EVENTS_URL = process.env.EVENT_API_URL;
   const [data, setData] = useState<EventModel | null>(null);
