@@ -30,7 +30,7 @@ export default function CreateCustomerAccountForm() {
 
   useEffect(() => {
     setError(null);
-    if (sessionStorage.getItem("userId")) {
+    if (sessionStorage.getItem("token")) {
       router.push("/user/profile");
     }
   }, []);
@@ -45,7 +45,7 @@ export default function CreateCustomerAccountForm() {
 
         body: JSON.stringify(userData),
       });
-      console.log(JSON.stringify(userData));
+
       if (!response.ok) {
         const errorResponse: ErrorResponse = await response.json();
         throw new Error(errorResponse.message);
@@ -56,8 +56,8 @@ export default function CreateCustomerAccountForm() {
       sessionStorage.setItem("token", JSON.stringify(data.token));
       sessionStorage.setItem("user", JSON.stringify(data.user));
 
-      // window.location.reload();
-      // router.push("/user/profile");
+      window.location.reload();
+      router.push("/user/profile");
 
       return data;
     } catch (error) {

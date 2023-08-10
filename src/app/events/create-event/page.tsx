@@ -8,20 +8,20 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ticketLogoLight from "@/assets/images/ticketLogoLight.png";
 import DateTimePicker from "@/components/DateTimePicker";
 import CategoryDropdown from "@/components/CategoryDropdown";
 import { useCreateEvent } from "@/hooks";
+import { useRouter } from "next/navigation";
 
 interface EventModel {
   name: string | any;
   is_virtual: boolean | any;
-  location: string | any;
+  location: string | null;
   startDatetime: string | any;
   endDatetime: string | any;
-  price: number | any;
+  price: number;
   tags: string | null;
   imgUrl: string | null;
   description: string | null;
@@ -49,15 +49,12 @@ const getToday = () => {
 };
 
 function CreateEventForm() {
+  const router = useRouter();
   const EVENT_URL = process.env.NEXT_PUBLIC_EVENT_API_URL;
   const endPoint = "/createEvent";
   const [virtual, setVirtual] = useState(true);
-  const [price, setPrice] = useState(
-    (0.0).toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-    })
-  );
+  const [price, setPrice] = useState("0");
+
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [selectedStartDateTime, setSelectedStartDateTime] = useState(
@@ -91,7 +88,6 @@ function CreateEventForm() {
           "Content-Type": "application/json", // Specify the content type as JSON
           Authorization: `Bearer ${token}`,
         },
-        credentials: "include",
         body: JSON.stringify(eventData),
       });
 
@@ -100,7 +96,10 @@ function CreateEventForm() {
       }
 
       const data = await response.json(); // Parse the JSON data from the response
-      console.log(data);
+      console.log(data.message);
+      if (data.message) {
+        router.push("/user/profile");
+      }
       return data;
     } catch (error) {
       // Handle any errors that occurred during the fetch request
@@ -166,12 +165,13 @@ function CreateEventForm() {
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    setPrice(formatCurrency(inputValue));
+
+    setPrice(inputValue);
   };
 
-  const handleBlur = () => {
-    setPrice((prevValue) => formatCurrency(prevValue, "blur"));
-  };
+  // const handleBlur = (prevValue: any) => {
+  //   setPrice(prevValue);
+  // };
 
   function displayText(choice: string) {
     if (choice == "yes") {
@@ -194,20 +194,23 @@ function CreateEventForm() {
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
-
     // Get data from the form.
     const data = {
       _id: user ? user._id : null,
       name: event.target.eventName.value,
       startDatetime: selectedStartDateTime,
       endDatetime: selectedEndDateTime,
-      price: event.target.price.value,
+      price: Number(event.target.price.value),
       eventType: selectedType,
       is_virtual: virtual,
       tags: selectedType,
-      imgUrl: "sdfsdfs",
-      description: "sdfsdf",
-      location: "sdfsdf",
+      imgUrl: event.target.eventImage.value
+        ? event.target.eventImage.value
+        : null,
+      description: event.target.description.value
+        ? event.target.description.value
+        : null,
+      location: event.target.location ? event.target.location.value : null,
     };
     const startDate = new Date(data.startDatetime);
     const endDate = new Date(data.endDatetime);
@@ -322,7 +325,7 @@ function CreateEventForm() {
                   // data-type="currency"
                   placeholder="0.00"
                   onChange={handlePriceChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   required
                 />
               </div>
