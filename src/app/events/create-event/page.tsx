@@ -13,6 +13,29 @@ import Image from "next/image";
 import ticketLogoLight from "@/assets/images/ticketLogoLight.png";
 import DateTimePicker from "@/components/DateTimePicker";
 import CategoryDropdown from "@/components/CategoryDropdown";
+import { useCreateEvent } from "@/hooks";
+
+interface EventModel {
+  name: string | any;
+  is_virtual: boolean | any;
+  location: string | any;
+  startDatetime: string | any;
+  endDatetime: string | any;
+  price: number | any;
+  tags: string | null;
+  imgUrl: string | null;
+  description: string | null;
+}
+interface User {
+  email: string;
+  managedEvents: string[];
+  name: string;
+  password: string;
+  registeredEvents: any;
+  username: string;
+  __v: number;
+  _id: string;
+}
 
 const getToday = () => {
   const now = new Date();
@@ -26,6 +49,7 @@ const getToday = () => {
 };
 
 function CreateEventForm() {
+  const EVENT_URL = process.env.EVENT_API_URL;
   const [virtual, setVirtual] = useState(true);
   const [price, setPrice] = useState(
     (0.0).toLocaleString("en-US", {
@@ -33,12 +57,56 @@ function CreateEventForm() {
       currency: "USD",
     })
   );
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [selectedStartDateTime, setSelectedStartDateTime] = useState(
     getToday()
   );
   const [selectedEndDateTime, setSelectedEndDateTime] = useState(getToday());
   const [selectedType, setSelectedType] = useState<string>("");
   const [dateError, setDateError] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      typeof sessionStorage !== "undefined" &&
+      typeof sessionStorage.getItem("user") !== null
+    ) {
+      let activeToken = sessionStorage.getItem("token");
+      let activeUser = sessionStorage.getItem("user");
+      if (activeToken && activeUser) {
+        setToken(JSON.parse(activeToken));
+        setUser(JSON.parse(activeUser));
+      }
+    }
+  }, []);
+
+  // API CONNECTION
+  async function createEvent(eventData: EventModel) {
+    try {
+      const response = await fetch(`${EVENT_URL}/createEvent`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify the content type as JSON
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: "include",
+        body: JSON.stringify(eventData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed"); // Handle non-OK response status (e.g., 400, 500, etc.)
+      }
+
+      const data = await response.json(); // Parse the JSON data from the response
+      console.log(data);
+      return data;
+    } catch (error) {
+      // Handle any errors that occurred during the fetch request
+      console.error("Login failed:", error);
+      throw error; // Rethrow the error to be handled by the caller
+    }
+  }
 
   const formatNumber = (n: string) => {
     // format number 1000000 to 1,234,567
@@ -80,7 +148,7 @@ function CreateEventForm() {
       right_side = right_side.substring(0, 2);
 
       // join number by "."
-      return "$" + left_side + "." + right_side;
+      return left_side + "." + right_side;
     } else {
       // no decimal entered
       // add commas to the number
@@ -88,9 +156,9 @@ function CreateEventForm() {
 
       const formattedValue = formatNumber(inputValue);
       if (formattedValue == "") {
-        return "$" + formattedValue + (blur === "blur" ? "0.00" : "");
+        return formattedValue + (blur === "blur" ? "0.00" : "");
       } else {
-        return "$" + formattedValue + (blur === "blur" ? ".00" : "");
+        return formattedValue + (blur === "blur" ? ".00" : "");
       }
     }
   };
@@ -128,11 +196,17 @@ function CreateEventForm() {
 
     // Get data from the form.
     const data = {
-      eventName: event.target.eventName.value,
+      _id: user ? user._id : null,
+      name: event.target.eventName.value,
       startDatetime: selectedStartDateTime,
       endDatetime: selectedEndDateTime,
       price: event.target.price.value,
       eventType: selectedType,
+      is_virtual: virtual,
+      tags: selectedType,
+      imgUrl: "sdfsdfs",
+      description: "sdfsdf",
+      location: "sdfsdf",
     };
     const startDate = new Date(data.startDatetime);
     const endDate = new Date(data.endDatetime);
@@ -144,6 +218,7 @@ function CreateEventForm() {
       return;
     } else {
       setDateError(false);
+      createEvent(data);
     }
 
     console.log(data);
@@ -241,10 +316,10 @@ function CreateEventForm() {
                   type="text"
                   name="price"
                   id="price"
-                  pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                  // pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?"
                   value={price}
-                  data-type="currency"
-                  placeholder="$0.00"
+                  // data-type="currency"
+                  placeholder="0.00"
                   onChange={handlePriceChange}
                   onBlur={handleBlur}
                   required

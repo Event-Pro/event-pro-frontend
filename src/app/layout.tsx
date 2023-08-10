@@ -3,6 +3,8 @@ import { Inter, Tenali_Ramakrishna, Ubuntu_Condensed } from "next/font/google";
 
 import Navigation from "@/components/Navigation";
 
+import { ThemeContextProvider } from "@/contexts/theme";
+
 const inter = Inter({
   weight: "700",
   subsets: ["latin"],
@@ -41,10 +43,11 @@ export default function RootLayout({
           href="../../utils/images/ticketLogoLight.png"
         />
       </head>
-
       <body className={classNames}>
-        {" "}
-        <Navigation /> {children}
+        <ThemeContextProvider>
+          {" "}
+          <Navigation /> {children}
+        </ThemeContextProvider>
       </body>
     </html>
   );

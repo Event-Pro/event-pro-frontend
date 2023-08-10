@@ -6,7 +6,7 @@
 // - Redirect to Profile on completion
 
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -18,10 +18,21 @@ interface UserModel {
   username: string;
   password: string;
 }
+interface ErrorResponse {
+  message: string;
+}
 
 export default function CreateCustomerAccountForm() {
   const AUTH_URL = process.env.AUTH_API_URL;
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setError(null);
+    if (localStorage.getItem("userId")) {
+      router.push("/user/profile");
+    }
+  }, []);
 
   async function createUser(userData: UserModel) {
     try {
@@ -34,15 +45,23 @@ export default function CreateCustomerAccountForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Login failed"); // Handle non-OK response status (e.g., 400, 500, etc.)
+        const errorResponse: ErrorResponse = await response.json();
+        throw new Error(errorResponse.message);
       }
 
       const data = await response.json(); // Parse the JSON data from the response
-      console.log(data);
+
+      if (data) {
+        localStorage.setItem("userId", data._id);
+        window.location.reload();
+        router.push("/user/profile");
+      }
+
       return data;
     } catch (error) {
       // Handle any errors that occurred during the fetch request
-      console.error("Login failed:", error);
+      console.error((error as Error).message);
+      setError((error as Error).message);
       throw error; // Rethrow the error to be handled by the caller
     }
   }
@@ -153,6 +172,7 @@ export default function CreateCustomerAccountForm() {
                 minLength={6}
               />
             </div>
+            {error ? <div style={{ color: "red" }}>{error}</div> : <></>}
             <div className="flex items-center justify-between">
               <button
                 className="bg-dark hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-auto"

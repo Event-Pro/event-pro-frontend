@@ -7,47 +7,99 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Image from "next/image";
 import ticket from "@/assets/images/ticketLogoLight.png";
 import { useLogin } from "@/hooks";
+import { useThemeContext } from "@/contexts/theme";
+import { userAgent } from "next/server";
 
 interface CredentialModel {
   username: string;
   password: string;
 }
+interface ErrorResponse {
+  message: string;
+}
+
+interface User {
+  email: string;
+  managedEvents: string[];
+  name: string;
+  password: string;
+  registeredEvents: any;
+  username: string;
+  __v: number;
+  _id: string;
+}
+const defaultUser = {
+  email: "",
+  managedEvents: [""],
+  name: "",
+  password: "",
+  registeredEvents: [],
+  username: "",
+  __v: 0,
+  _id: "",
+};
 
 export default function Login() {
+  // const { user, setUser } = useThemeContext();
   const AUTH_URL = process.env.AUTH_API_URL;
-  console.log(AUTH_URL);
-  // const [credentials, setCredentials] = useState<CredentialModel>({
-  //   username: "",
-  //   password: "",
-  // });
-  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // const [user, setUser] = useState<User>(defaultUser);
   const [submit, setSubmit] = useState<boolean>(false);
   const router = useRouter();
 
-  async function loginUser(credentials: object) {
+  useEffect(() => {
+    setError(null);
+    if (
+      typeof window !== "undefined" &&
+      typeof sessionStorage !== "undefined"
+    ) {
+      if (sessionStorage.getItem("token")) {
+        // window.location.reload();
+        router.push("/user/profile");
+      }
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   if (user._id.length > 0) {
+  //     router.push("/user/profile");
+  //   }
+  // }, [user]);
+
+  async function loginUser(credentials: CredentialModel) {
     try {
       const response = await fetch(`${AUTH_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Specify the content type as JSON
         },
+        credentials: "include",
         body: JSON.stringify(credentials),
       });
 
       if (!response.ok) {
-        throw new Error("Login failed"); // Handle non-OK response status (e.g., 400, 500, etc.)
+        const errorResponse: ErrorResponse = await response.json();
+        throw new Error(errorResponse.message);
       }
 
       const data = await response.json(); // Parse the JSON data from the response
-      console.log(data);
+
+      sessionStorage.setItem("token", JSON.stringify(data.token));
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+
+      // window.location.reload();
+      // router.push("/user/profile");
+
       return data;
     } catch (error) {
       // Handle any errors that occurred during the fetch request
-      console.error("Login failed:", error);
+      console.error((error as Error).message);
+      setError((error as Error).message);
       throw error; // Rethrow the error to be handled by the caller
     }
   }
@@ -71,6 +123,7 @@ export default function Login() {
 
     // router.push("/user/profile");
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 ">
       <div className="bg-white max-w-md w-full space-y-8 text-dark shadow-md rounded border-solid border-2 border-primary">
@@ -122,6 +175,7 @@ export default function Login() {
                 required
               />
             </div>
+            {error ? <div style={{ color: "red" }}>{error}</div> : <></>}
             <div className="flex items-center justify-between">
               <button
                 className="bg-dark hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline m-auto"

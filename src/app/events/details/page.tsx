@@ -11,7 +11,7 @@ import { dateFull, partialDate, partialTime } from "@/utils/dateFormatter";
 
 function EventDetailPage() {
   // temp
-  const eventId = "/64c82df01662e48507781c97";
+  const eventId = "/64cdc2aa0baf2699bc6b0812";
 
   const { data: event, isError, isLoading } = useEvent(eventId);
   const [start, setStart] = useState<string>("");
