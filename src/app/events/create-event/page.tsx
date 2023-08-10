@@ -49,7 +49,8 @@ const getToday = () => {
 };
 
 function CreateEventForm() {
-  const EVENT_URL = process.env.EVENT_API_URL;
+  const EVENT_URL = process.env.NEXT_PUBLIC_EVENT_API_URL;
+  const endPoint = "/createEvent";
   const [virtual, setVirtual] = useState(true);
   const [price, setPrice] = useState(
     (0.0).toLocaleString("en-US", {
@@ -84,7 +85,7 @@ function CreateEventForm() {
   // API CONNECTION
   async function createEvent(eventData: EventModel) {
     try {
-      const response = await fetch(`${EVENT_URL}/createEvent`, {
+      const response = await fetch(`${EVENT_URL}${endPoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Specify the content type as JSON

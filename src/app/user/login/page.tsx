@@ -46,6 +46,8 @@ const defaultUser = {
 export default function Login() {
   // const { user, setUser } = useThemeContext();
   const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_API_URL;
+  console.log(AUTH_URL);
+  const endPoint = "/login";
   const [error, setError] = useState<string | null>(null);
 
   // const [user, setUser] = useState<User>(defaultUser);
@@ -73,7 +75,7 @@ export default function Login() {
 
   async function loginUser(credentials: CredentialModel) {
     try {
-      const response = await fetch(`${AUTH_URL}/login`, {
+      const response = await fetch(`${AUTH_URL}${endPoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Specify the content type as JSON

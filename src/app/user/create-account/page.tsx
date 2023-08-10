@@ -23,7 +23,8 @@ interface ErrorResponse {
 }
 
 export default function CreateCustomerAccountForm() {
-  const AUTH_URL = process.env.AUTH_API_URL;
+  const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_API_URL;
+  const endPoint = "/createAccount";
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +37,7 @@ export default function CreateCustomerAccountForm() {
 
   async function createUser(userData: UserModel) {
     try {
-      const response = await fetch(`${AUTH_URL}/signup`, {
+      const response = await fetch(`${AUTH_URL}${endPoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Specify the content type as JSON
