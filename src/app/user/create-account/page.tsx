@@ -24,13 +24,13 @@ interface ErrorResponse {
 
 export default function CreateCustomerAccountForm() {
   const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_API_URL;
-  const endPoint = "/createAccount";
+  const endPoint = "/signup";
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setError(null);
-    if (localStorage.getItem("userId")) {
+    if (sessionStorage.getItem("userId")) {
       router.push("/user/profile");
     }
   }, []);
@@ -42,9 +42,10 @@ export default function CreateCustomerAccountForm() {
         headers: {
           "Content-Type": "application/json", // Specify the content type as JSON
         },
+
         body: JSON.stringify(userData),
       });
-
+      console.log(JSON.stringify(userData));
       if (!response.ok) {
         const errorResponse: ErrorResponse = await response.json();
         throw new Error(errorResponse.message);
@@ -52,11 +53,11 @@ export default function CreateCustomerAccountForm() {
 
       const data = await response.json(); // Parse the JSON data from the response
 
-      if (data) {
-        localStorage.setItem("userId", data._id);
-        window.location.reload();
-        router.push("/user/profile");
-      }
+      sessionStorage.setItem("token", JSON.stringify(data.token));
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+
+      // window.location.reload();
+      // router.push("/user/profile");
 
       return data;
     } catch (error) {
