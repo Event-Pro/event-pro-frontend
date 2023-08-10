@@ -342,24 +342,6 @@ const Navigation = () => {
                     >
                       Create Account
                     </a>
-                    <a
-                      href="/events/create-event"
-                      className="block px-4 py-2 text-md text-white rounded-md hover:bg-dark"
-                      role="menuitem"
-                      tabIndex={-1}
-                      id="user-menu-item-0"
-                    >
-                      Create New Event
-                    </a>
-                    <a
-                      onClick={signOut}
-                      className="block px-4 py-2 text-dm text-white rounded-md hover:bg-dark"
-                      role="menuitem"
-                      tabIndex={-1}
-                      id="user-menu-item-2"
-                    >
-                      Sign out
-                    </a>
                   </div>
                 )}
 
